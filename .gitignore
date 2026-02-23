@@ -1,0 +1,5 @@
+*
+!/*.cpp
+!/.vscode/
+!/.vscode/tasks.json
+!/.gitignore
