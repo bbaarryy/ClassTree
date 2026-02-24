@@ -24,9 +24,7 @@ protected:
     int min_temp,max_temp;
     int watering;
 
-    bool operator< (Plant& Other){
-        return this->survivalability() < Other.survivalability();
-    };
+   
 public:
     string name;
 
@@ -85,9 +83,9 @@ public:
     }
 };
 
-class cactuse: public TropicalPlants{
+class cactus: public TropicalPlants{
 public:
-    cactuse(){
+    cactus(){
         this->watering = 3;
         this->max_height = 0.5;
     }
