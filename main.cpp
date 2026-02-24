@@ -4,8 +4,12 @@
 #include <ctime>
 #include <chrono>
 #include <random>
+#include <thread>
 
-using namespace::std;
+using namespace std;
+
+using namespace std::this_thread; // sleep_for, sleep_until
+using namespace std::chrono;
 #define vi vector<int>
 #define REP(n) for(int i = 0 ; i < n ; i++)
 
@@ -15,6 +19,7 @@ class Plant{
 protected:
     float max_height;
     string climate;
+
     int lifetime;
     int min_temp,max_temp;
     int watering;
@@ -23,22 +28,21 @@ protected:
         return this->survivalability() < Other.survivalability();
     };
 public:
+    string name;
+
     Plant(){
+        cout << "create plant" << '\n';
         this->min_temp = -1;
         this->max_temp = -1;
         this->watering = -1;
     }
 
-    bool compitability(Plant Other){
-        return ((Other.max_temp - this->max_temp) < 5 ) && ((Other.min_temp - this->min_temp) < 5);
-    };
-    virtual void touch() = 0;
-    virtual void shake() = 0;
+    void touch(){cout << "" << '\n';}
+    void shake(){cout << "" << '\n';}
 
     int survivalability(){
         return (this->lifetime + this->max_temp - this->min_temp) * min(0.9,max(1.2, (1/((double)max_height))));
     }
-
 };
 
 class TropicalPlants: public Plant{
@@ -70,10 +74,13 @@ public:
         switch(lucky){
             case 0:
                 cout << "Oh! Bananas!" << '\n';
+                break;
             case 1:
                 cout << "Ouch*** Coconut just falled on my head!" << '\n';
+                break;
             case 2:
                 cout << "Hmmm... Nothing" << '\n';
+                break;
         }
     }
 };
@@ -108,39 +115,52 @@ public:
     void shake(){
         cout << "Fshh" << '\n';
     }
-}; 
+};
+
+
 
 int main(){
     //
     // --checking classes
     //
 
-    // string s;
-    // vector<Plant> collecture;
+    string s;
+    vector<Plant*> collecture;
 
-    // while(true){
-    //     cin >> s;
-    //     string arr[10];
+    while(true){
+        getline(cin, s);
+        string arr[10];
 
-    //     string curr_w = "";
-    //     int ind=0;
-    //     for(int i = 0 ; i < s.size();i++){
-    //         if(s[i] == ' '){
-    //             arr[ind]=curr_w;
-    //             ind++;
-    //             curr_w =  "";
-    //         }
-    //         else{
-    //             curr_w +=s[i];
-    //         }
-    //     }
-    //     arr[ind] = curr_w;
-    //     if(arr[0] == "create" || arr[0] == "c"){
-    //     }
-    // }
+        string curr_w = "";
+        int ind=0;
+        for(int i = 0 ; i < s.size();i++){
+            if(s[i] == ' '){
+                arr[ind]=curr_w;
+                ind++;
+                curr_w =  "";
+            }
+            else{
+                curr_w +=s[i];
+            }
+        }
+        arr[ind] = curr_w;
 
-    Palm Royal;
-    Royal.shake();
+        if(arr[0] == "create" || arr[0] == "c"){
+            if(arr[1] == "palm"){
+                Palm* ch = new Palm;
+                ch->name = arr[2];
+                collecture.push_back(ch);
+            }
+        }
+        if(arr[0] == "touch"){
+            //cout<< arr[0]<< ' ' << arr[1] <<'\n';
+            collecture[stoi(arr[1])]->touch();
+        }
+        if(arr[0] == "shake"){
+            collecture[stoi(arr[1])]->shake();
+        }
 
+        sleep_for(nanoseconds(100));
+    }
 }
 
