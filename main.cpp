@@ -69,6 +69,7 @@ public:
         cout << "You can climb" << '\n';
     }
 
+    
     void shake(){
         int lucky = rnd2()%3;
         switch(lucky){
