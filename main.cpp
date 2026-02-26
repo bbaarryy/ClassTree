@@ -68,7 +68,6 @@ public:
     void touch(){
         cout << "You can climb" << '\n';
     }
-
     
     void shake(){
         int lucky = rnd2()%3;
