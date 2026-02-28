@@ -24,19 +24,22 @@ protected:
     int min_temp,max_temp;
     int watering;
 
-   
+    bool operator< (Plant& Other){
+        return this->survivalability() < Other.survivalability();
+    };
 public:
     string name;
 
     Plant(){
         cout << "create plant" << '\n';
+
         this->min_temp = -1;
         this->max_temp = -1;
         this->watering = -1;
     }
 
-    void touch(){cout << "" << '\n';}
-    void shake(){cout << "" << '\n';}
+    virtual void touch() = 0;
+    virtual void shake() = 0;
 
     int survivalability(){
         return (this->lifetime + this->max_temp - this->min_temp) * min(0.9,max(1.2, (1/((double)max_height))));
@@ -52,7 +55,7 @@ public:
         this->watering = 80;
     }
     
-    void touch(){
+    void touch() override{
         cout << "Hmm... Something hot with sunny on the beach" << '\n';
     }
 };
@@ -63,11 +66,11 @@ public:
         this->max_height = 10;
     }
     
-    void touch(){
+    void touch() override{
         cout << "You can climb" << '\n';
     }
-
-    void shake(){
+    
+    void shake() override{
         int lucky = rnd2()%3;
         switch(lucky){
             case 0:
@@ -83,18 +86,18 @@ public:
     }
 };
 
-class cactus: public TropicalPlants{
+class cactuse: public TropicalPlants{
 public:
-    cactus(){
+    cactuse(){
         this->watering = 3;
         this->max_height = 0.5;
     }
     
-    void touch(){
+    void touch() override{
         cout << "Ahh... Its spiky" << '\n';
     }
 
-    void shake(){
+    void shake() override{
         cout << "Not the best idea" << '\n';
     }
 };
@@ -106,15 +109,14 @@ public:
         this->max_height = 1.3;
     }
     
-    void touch(){
+    void touch() override{
         cout << "Nothing special" << '\n';
     }
 
-    void shake(){
+    void shake() override{
         cout << "Fshh" << '\n';
     }
 };
-
 
 
 int main(){
@@ -150,6 +152,7 @@ int main(){
                 collecture.push_back(ch);
             }
         }
+        
         if(arr[0] == "touch"){
             //cout<< arr[0]<< ' ' << arr[1] <<'\n';
             collecture[stoi(arr[1])]->touch();
