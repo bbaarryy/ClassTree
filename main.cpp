@@ -28,7 +28,7 @@ public:
     string name;
 
     Plant() {
-        // cout << "Create plant" << '\n';
+        cout << "Create plant" << '\n';
         this->min_temp = -1;
         this->max_temp = -1;
         this->watering = -1;
